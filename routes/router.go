@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"log"
 	v1 "zhu/myrest/api/v1"
 	"zhu/myrest/middleware"
 	"zhu/myrest/utils"
@@ -17,7 +18,11 @@ func InitRouter() {
 	routeV1 := r.Group("api")
 	{
 		routeV1.GET("users/all", v1.GetAllUser)
+		routeV1.GET("users/:email", v1.GetUserByEmail)
 		routeV1.GET("foods", v1.GetAllFood)
+		routeV1.GET("foods/:id", v1.GetFoodById)
 	}
+	log.Println("listening the port: 9090")
 	r.Run(utils.HttpPort)
+
 }

@@ -4,6 +4,7 @@ package model
 
 import (
 	"fmt"
+	"log"
 	"time"
 	"zhu/myrest/utils"
 
@@ -26,7 +27,7 @@ func InitDb() {
 		utils.DbName,
 	))
 	if err != nil {
-		fmt.Println("连接数据库失败，请检查参数： ", err)
+		log.Println("连接数据库失败，请检查参数： ", err)
 		return
 	}
 	//defer db.Close()
@@ -34,7 +35,7 @@ func InitDb() {
 	//禁用默认表的复数形式
 	db.SingularTable(true)
 	//迁移
-	db.AutoMigrate(&User{})
+	// db.AutoMigrate(&User{})
 
 	//设置连接池的最大闲置连接数
 	db.DB().SetMaxIdleConns(10)

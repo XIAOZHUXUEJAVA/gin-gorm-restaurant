@@ -1,5 +1,10 @@
 package model
 
+import (
+	"log"
+	"zhu/myrest/errmsg"
+)
+
 type Food struct {
 	FoodId       string `gorm:"type:int(11);primaryKey;" json:"food_id"  label:"菜品编号"`
 	FoodName     string `gorm:"type:varchar(255);" json:"food_name"  label:"菜品名称"`
@@ -14,9 +19,29 @@ type Food struct {
 	FoodSrc      string `gorm:"type:varchar(255);" json:"food_src"  label:"菜品图片"`
 }
 
-func GetAllFood() (foods []*Food, err error) {
-	if err = db.Find(&foods).Error; err != nil {
-		return nil, err
+//	func GetAllFood() (foods []*Food, err error) {
+//		if err = db.Find(&foods).Error; err != nil {
+//			return nil, err
+//		}
+//		return
+//	}
+func GetAllFood() ([]*Food, int) {
+	var foods []*Food
+	err := db.Find(&foods).Error
+	if err != nil {
+		log.Println(err)
+		return foods, errmsg.ERROR
 	}
-	return
+	// log.Println(foods)
+	return foods, errmsg.SUCCESS
+}
+
+func GetFoodById(id int) (*Food, int) {
+	var food *Food
+	err := db.Model(&food).Where("id = ?", id).First(&food)
+	if err != nil {
+		log.Println(errmsg.ERROR)
+		return food, errmsg.ERROR
+	}
+	return food, errmsg.SUCCESS
 }
