@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"zhu/myrest/errmsg"
 	"zhu/myrest/model"
+	"zhu/myrest/proto"
 
 	"github.com/gin-gonic/gin"
 )
@@ -29,4 +30,23 @@ func GetUserByEmail(c *gin.Context) {
 		"data":    data,
 		"message": errmsg.GetErrMsg(code),
 	})
+}
+func InsertUser(c *gin.Context) {
+	var data proto.ReqAddUser
+	_ = c.ShouldBindJSON(&data)
+	user := &model.User{
+		UserName:     data.UserName,
+		UserEmail:    data.Email,
+		UserPhone:    data.Phone,
+		UserPassword: data.Password,
+		UserBirth:    data.Birth,
+		UserGender:   data.Gender,
+	}
+	result, code := model.InsertUser(user)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"data":    result,
+		"message": errmsg.GetErrMsg(code),
+	})
+
 }

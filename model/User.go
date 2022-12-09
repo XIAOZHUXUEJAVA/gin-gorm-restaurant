@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"log"
 	"zhu/myrest/errmsg"
 	"zhu/myrest/proto"
@@ -29,19 +28,27 @@ func GetAllUsers() (users []*User, err error) {
 // 根据email获取user
 func GetUserByEmail(email string) (*proto.RspFindUserByEmail, int) {
 	var user *User = &User{}
-	fmt.Println(email)
 	// db.First(&user, email).Select("user_id, user_name, user_password")
-	err := db.Model(&user).Where("user_email = ?", email).First(&user).Select("user_id, user_name, user_password")
-	log.Println(user)
+	err := db.Model(&user).Where("user_email = ?", email).First(&user).Select("user_id, user_name, user_password").Error
 	if err != nil {
-		// log.Println(err)
-		// return nil, errmsg.ERROR
+		log.Println(err)
+		return nil, errmsg.ERROR
 	}
-	userInfo := &proto.RspFindUserByEmail{}
-	userInfo.ID = user.UserId
-	userInfo.UserName = user.UserName
-	userInfo.Password = user.UserPassword
-	fmt.Println(*userInfo)
+	userInfo := &proto.RspFindUserByEmail{
+		ID:       user.UserId,
+		UserName: user.UserName,
+		Password: user.UserPassword,
+	}
 
 	return userInfo, errmsg.SUCCESS
+}
+
+// 新增用户
+func InsertUser(data *User) (*User, int) {
+	err := db.Create(&data).Error
+	if err != nil {
+
+		return nil, errmsg.ERROR
+	}
+	return data, errmsg.SUCCESS
 }

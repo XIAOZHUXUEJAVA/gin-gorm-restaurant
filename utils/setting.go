@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"fmt"
+	"log"
 
 	"gopkg.in/ini.v1"
 )
@@ -24,9 +24,9 @@ var (
 func init() {
 
 	file, err := ini.Load("config/config.ini")
-	fmt.Println("==========开始读取config配置文件==========")
+	log.Println("==========开始读取config配置文件==========")
 	if err != nil {
-		fmt.Println("==========读取文件失败==========", err)
+		log.Println("==========读取文件失败==========", err)
 	}
 	LoadServer(file)
 	LoadDate(file)

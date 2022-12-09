@@ -27,20 +27,20 @@ type Food struct {
 //	}
 func GetAllFood() ([]*Food, int) {
 	var foods []*Food
+	// 如果查找失败，即err不为空
 	err := db.Find(&foods).Error
 	if err != nil {
 		log.Println(err)
-		return foods, errmsg.ERROR
+		return nil, errmsg.ERROR
 	}
-	// log.Println(foods)
 	return foods, errmsg.SUCCESS
 }
 
 func GetFoodById(id int) (*Food, int) {
 	var food *Food
-	err := db.Model(&food).Where("id = ?", id).First(&food)
+	err := db.Model(&food).Where("id = ?", id).First(&food).Error
 	if err != nil {
-		log.Println(errmsg.ERROR)
+		log.Println(err)
 		return food, errmsg.ERROR
 	}
 	return food, errmsg.SUCCESS
