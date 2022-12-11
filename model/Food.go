@@ -6,7 +6,7 @@ import (
 )
 
 type Food struct {
-	FoodId       string `gorm:"type:int(11);primaryKey;" json:"food_id"  label:"菜品编号"`
+	FoodId       string `gorm:"type:int(11);" json:"food_id"  label:"菜品编号"`
 	FoodName     string `gorm:"type:varchar(255);" json:"food_name"  label:"菜品名称"`
 	FoodStar     string `gorm:"type:varchar(255);" json:"food_star"  label:"菜品评分"`
 	FoodVote     string `gorm:"type:varchar(255);" json:"food_vote"  label:"菜品销量"`

@@ -9,4 +9,13 @@ type (
 		Birth    string `json:"user_birth"`
 		Gender   string `json:"user_gender"`
 	}
+	ReqAddTable struct {
+		BookName   string `json:"book_name"`
+		BookPhone  string `json:"book_phone"`
+		BookPeople int    `json:"book_people"`
+		BookTables int    `json:"book_tables"`
+		UserId     int    `json:"user_id"`
+		BookWhen   string `json:"book_when"`
+		BookNote   string `json:"book_note"`
+	}
 )

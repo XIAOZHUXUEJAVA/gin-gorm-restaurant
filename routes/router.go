@@ -20,6 +20,7 @@ func InitRouter() {
 		routeV1.GET("users/all", v1.GetAllUser)
 		routeV1.GET("users/:email", v1.GetUserByEmail)
 		routeV1.POST("users/", v1.InsertUser)
+		routeV1.POST("booking", v1.InsertTable)
 		routeV1.GET("foods", v1.GetAllFood)
 		routeV1.GET("foods/:id", v1.GetFoodById)
 	}

@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -25,5 +26,6 @@ func Cors() gin.HandlerFunc {
 
 		// 处理请求
 		c.Next()
+		fmt.Println("=====================================")
 	}
 }
