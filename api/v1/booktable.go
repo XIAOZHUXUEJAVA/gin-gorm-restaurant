@@ -11,6 +11,7 @@ import (
 
 func InsertTable(c *gin.Context) {
 	var data proto.ReqAddTable
+	// 将传过来的json绑定到data中
 	_ = c.ShouldBindJSON(&data)
 	table := &model.BookTable{
 		BookName:   data.BookName,

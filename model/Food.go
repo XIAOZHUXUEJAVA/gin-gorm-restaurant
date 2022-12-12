@@ -6,17 +6,17 @@ import (
 )
 
 type Food struct {
-	FoodId       string `gorm:"type:int(11);" json:"food_id"  label:"菜品编号"`
-	FoodName     string `gorm:"type:varchar(255);" json:"food_name"  label:"菜品名称"`
-	FoodStar     string `gorm:"type:varchar(255);" json:"food_star"  label:"菜品评分"`
-	FoodVote     string `gorm:"type:varchar(255);" json:"food_vote"  label:"菜品销量"`
-	FoodPrice    string `gorm:"type:varchar(255);" json:"food_price"  label:"菜品价格"`
-	FoodDiscount string `gorm:"type:varchar(255);" json:"food_discount"  label:"菜品折扣"`
-	FoodDesc     string `gorm:"type:varchar(255);" json:"food_desc"  label:"菜品描述"`
-	FoodStatus   string `gorm:"type:varchar(255);" json:"food_status"  label:"菜品状态"`
-	FoodType     string `gorm:"type:varchar(255);" json:"food_type"  label:"菜品类型"`
-	FoodCategory string `gorm:"type:varchar(255);" json:"food_category"  label:"菜品种类"`
-	FoodSrc      string `gorm:"type:varchar(255);" json:"food_src"  label:"菜品图片"`
+	FoodId       string `gorm:"type:int(11) auto_increment; primary_key;  comment: '菜品编号' " json:"food_id"  `
+	FoodName     string `gorm:"type:varchar(255); comment: '菜品名称';" json:"food_name"`
+	FoodStar     string `gorm:"type:varchar(255); comment: '菜品评分';" json:"food_star"  `
+	FoodVote     string `gorm:"type:varchar(255); comment: '菜品销量';" json:"food_vote"  `
+	FoodPrice    string `gorm:"type:varchar(255); comment: '菜品价格';" json:"food_price"  `
+	FoodDiscount string `gorm:"type:varchar(255); comment: '菜品折扣';" json:"food_discount"  `
+	FoodDesc     string `gorm:"type:varchar(255); comment: '菜品描述';" json:"food_desc"  `
+	FoodStatus   string `gorm:"type:varchar(255); comment: '菜品状态';" json:"food_status"  `
+	FoodType     string `gorm:"type:varchar(255); comment: '菜品类型';" json:"food_type"  `
+	FoodCategory string `gorm:"type:varchar(255); comment: '菜品种类';" json:"food_category"  `
+	FoodSrc      string `gorm:"type:varchar(255); comment: '菜品图片';" json:"food_src"  `
 }
 
 //	func GetAllFood() (foods []*Food, err error) {

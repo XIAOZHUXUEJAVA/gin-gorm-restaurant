@@ -8,13 +8,13 @@ import (
 
 type User struct {
 	// validate:"required,min=4,max=12"
-	UserId       int    `gorm:"primaryKey;type:int(11);not null;" json:"user_id"  label:"用户编号"`
-	UserName     string `gorm:"type:varchar(255);not null" json:"user_name"  label:"用户名"`
-	UserEmail    string `gorm:"type:varchar(255);not null" json:"user_email"  label:"用户邮箱"`
-	UserPhone    string `gorm:"type:varchar(255);not null" json:"user_phone"  label:"用户电话"`
-	UserPassword string `gorm:"type:varchar(255);not null" json:"user_password"  label:"用户密码"`
-	UserBirth    string `gorm:"type:varchar(255);not null" json:"user_birth"  label:"用户生日"`
-	UserGender   string `gorm:"type:varchar(255);not null" json:"user_gender"  label:"用户性别"`
+	UserId       int    `gorm:"type:int(11) auto_increment; primary_key; comment: '用户编号'" json:"user_id"  `
+	UserName     string `gorm:"type:varchar(255); comment: '用户名';" json:"user_name"  `
+	UserEmail    string `gorm:"type:varchar(255); comment: '用户邮箱';" json:"user_email"  `
+	UserPhone    string `gorm:"type:varchar(255); comment: '用户电话';" json:"user_phone"  `
+	UserPassword string `gorm:"type:varchar(255); comment: '用户密码';" json:"user_password"  `
+	UserBirth    string `gorm:"type:varchar(255); comment: '用户生日';" json:"user_birth"  `
+	UserGender   string `gorm:"type:varchar(255); comment: '用户性别';" json:"user_gender"  `
 }
 
 // 获取所有user
