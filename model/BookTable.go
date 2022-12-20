@@ -1,6 +1,6 @@
 package model
 
-import "zhu/myrest/errmsg"
+import "zhu/myrest/utils/errmsg"
 
 type BookTable struct {
 	BookId     int    `gorm:"type:int(11) auto_increment; comment: '预订编号';  primary_key;" json:"book_id"  `
@@ -19,5 +19,4 @@ func InsertTable(data *BookTable) (*BookTable, int) {
 		return nil, errmsg.ERROR
 	}
 	return data, errmsg.SUCCESS
-
 }

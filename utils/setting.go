@@ -26,7 +26,7 @@ func init() {
 	file, err := ini.Load("config/config.ini")
 	log.Println("==========开始读取config配置文件==========")
 	if err != nil {
-		log.Println("==========读取文件失败==========", err)
+		log.Println("==========读取文件失败==========\n", err)
 	}
 	LoadServer(file)
 	LoadDate(file)

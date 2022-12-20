@@ -3,8 +3,8 @@ package v1
 import (
 	"net/http"
 	"strconv"
-	"zhu/myrest/errmsg"
 	"zhu/myrest/model"
+	"zhu/myrest/utils/errmsg"
 
 	"github.com/gin-gonic/gin"
 )

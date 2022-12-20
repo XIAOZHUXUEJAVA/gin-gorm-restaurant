@@ -18,10 +18,15 @@ func InitRouter() {
 	routeV1 := r.Group("api")
 	{
 		// 这里我们一定要和前端的url对接好
+		// user相关
 		routeV1.GET("users/all", v1.GetAllUser)
 		routeV1.GET("users/:email", v1.GetUserByEmail)
 		routeV1.POST("users/", v1.InsertUser)
+
+		// booktable相关
 		routeV1.POST("booking", v1.InsertTable)
+
+		// food相关
 		routeV1.GET("foods", v1.GetAllFood)
 		routeV1.GET("foods/:id", v1.GetFoodById)
 	}

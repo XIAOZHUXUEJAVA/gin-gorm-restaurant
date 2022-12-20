@@ -1,11 +1,11 @@
 package v1
 
 import (
-	"log"
 	"net/http"
-	"zhu/myrest/errmsg"
 	"zhu/myrest/model"
 	"zhu/myrest/proto"
+	"zhu/myrest/utils/errmsg"
+	"zhu/myrest/utils/validator"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,7 +15,6 @@ func GetAllUser(c *gin.Context) {
 	// for _, user := range users {
 	// 	log.Println(user)
 	// }
-	log.Println(users)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{"error": err.Error()})
 	} else {
@@ -34,6 +33,14 @@ func GetUserByEmail(c *gin.Context) {
 func InsertUser(c *gin.Context) {
 	var data proto.ReqAddUser
 	_ = c.ShouldBindJSON(&data)
+	msg, code := validator.Validate(&data)
+	if code != errmsg.SUCCESS {
+		c.JSON(http.StatusOK, gin.H{
+			"status":  code,
+			"message": msg,
+		})
+		return
+	}
 	user := &model.User{
 		UserName:     data.UserName,
 		UserEmail:    data.Email,

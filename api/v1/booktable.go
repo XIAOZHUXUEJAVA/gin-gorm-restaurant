@@ -2,9 +2,9 @@ package v1
 
 import (
 	"net/http"
-	"zhu/myrest/errmsg"
 	"zhu/myrest/model"
 	"zhu/myrest/proto"
+	"zhu/myrest/utils/errmsg"
 
 	"github.com/gin-gonic/gin"
 )

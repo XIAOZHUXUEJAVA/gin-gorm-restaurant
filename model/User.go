@@ -2,8 +2,8 @@ package model
 
 import (
 	"log"
-	"zhu/myrest/errmsg"
 	"zhu/myrest/proto"
+	"zhu/myrest/utils/errmsg"
 )
 
 type User struct {

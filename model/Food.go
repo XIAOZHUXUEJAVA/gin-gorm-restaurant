@@ -2,7 +2,7 @@ package model
 
 import (
 	"log"
-	"zhu/myrest/errmsg"
+	"zhu/myrest/utils/errmsg"
 )
 
 type Food struct {
