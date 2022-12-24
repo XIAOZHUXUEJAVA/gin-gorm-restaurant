@@ -1,7 +1,7 @@
 package validator
 
 import (
-	"fmt"
+	"log"
 	"reflect"
 	"regexp"
 	"zhu/myrest/utils/errmsg"
@@ -19,7 +19,7 @@ func Validate(data interface{}) (string, int) {
 
 	err := zhTrans.RegisterDefaultTranslations(validate, trans)
 	if err != nil {
-		fmt.Println("err:  ", err)
+		log.Println("err:  ", err)
 	}
 
 	validate.RegisterTagNameFunc(func(field reflect.StructField) string {
@@ -30,23 +30,24 @@ func Validate(data interface{}) (string, int) {
 
 	err = validate.Struct(data)
 	if err != nil {
-		for _, v := range err.(validator.ValidationErrors) {
-			return v.Translate(trans), errmsg.ERROR
+		for _, err := range err.(validator.ValidationErrors) {
+			// phone number is not valid
+			if err.Tag() == "customPhoneNumber" {
+				return errmsg.PHONE_NUMBER_NOT_VALID, errmsg.ERROR
+			}
+			return err.Translate(trans), errmsg.ERROR
 		}
 	}
 	return "", errmsg.SUCCESS
 }
+
+// Add our own Tag to validate
 func customPhoneNumber(fl validator.FieldLevel) bool {
 	phoneNumber, ok := fl.Field().Interface().(string)
 	if !ok {
 		return false
 	}
+	// phonr number must be 11 numbers starting with 84
 	matched, err := regexp.MatchString(`^84\d{9}$`, phoneNumber)
 	return err == nil && matched
 }
-
-// func customPhoneNumber(v validator.FieldLevel) bool {
-// 	phoneNumber := v.Field().String()
-// 	matched, err := regexp.MatchString(`^84\d{9}$`, phoneNumber)
-// 	return err == nil && matched
-// }
