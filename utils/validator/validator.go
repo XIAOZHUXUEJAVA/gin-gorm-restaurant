@@ -4,6 +4,7 @@ import (
 	"log"
 	"reflect"
 	"regexp"
+	"strings"
 	"zhu/myrest/utils/errmsg"
 
 	"github.com/go-playground/locales/zh_Hans_CN"
@@ -14,6 +15,7 @@ import (
 
 func Validate(data interface{}) (string, int) {
 	validate := validator.New()
+	// To translate err msg into Chinese
 	uni := unTrans.New(zh_Hans_CN.New())
 	trans, _ := uni.GetTranslator("zh_Hans_CN")
 
@@ -27,13 +29,15 @@ func Validate(data interface{}) (string, int) {
 		return label
 	})
 	_ = validate.RegisterValidation("customPhoneNumber", customPhoneNumber)
-
+	_ = validate.RegisterValidation("customPassword", customPassword)
 	err = validate.Struct(data)
 	if err != nil {
 		for _, err := range err.(validator.ValidationErrors) {
 			// phone number is not valid
 			if err.Tag() == "customPhoneNumber" {
 				return errmsg.PHONE_NUMBER_NOT_VALID, errmsg.ERROR
+			} else if err.Tag() == "customPassword" {
+				return errmsg.PASSWORD_NOT_VALID, errmsg.ERROR
 			}
 			return err.Translate(trans), errmsg.ERROR
 		}
@@ -50,4 +54,19 @@ func customPhoneNumber(fl validator.FieldLevel) bool {
 	// phonr number must be 11 numbers starting with 84
 	matched, err := regexp.MatchString(`^84\d{9}$`, phoneNumber)
 	return err == nil && matched
+}
+func customPassword(fl validator.FieldLevel) bool {
+	password, ok := fl.Field().Interface().(string)
+	if !ok {
+		return false
+	}
+	// password length < 8, we can use min = 8
+	// if len(password) < 8 {
+	// 	return false
+	// }
+	// password must contain 1 special character
+	if !strings.ContainsAny(password, "!@#$%^&*") {
+		return false
+	}
+	return true
 }

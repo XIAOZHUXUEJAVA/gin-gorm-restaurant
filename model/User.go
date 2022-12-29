@@ -43,11 +43,15 @@ func GetUserByEmail(email string) (*proto.RspFindUserByEmail, int) {
 	return userInfo, errmsg.SUCCESS
 }
 
-// 新增用户
+// 新增用户, 这个地方可以考虑优化一下，就是插入相同的话，返回错误信息，怎么办呢
 func InsertUser(data *User) (*User, int) {
+	// 判断用户是否存在
+	userInfo, _ := GetUserByEmail(data.UserEmail)
+	if userInfo != nil {
+		return nil, errmsg.USER_EMAIL_EXIST
+	}
 	err := db.Create(&data).Error
 	if err != nil {
-
 		return nil, errmsg.ERROR
 	}
 	return data, errmsg.SUCCESS

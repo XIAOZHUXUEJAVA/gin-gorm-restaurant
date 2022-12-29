@@ -6,7 +6,7 @@ type (
 		UserName string `json:"user_name" validate:"required,alpha,min=4,max=12" label:"用户名"`
 		Email    string `json:"user_email" validate:"required,email" label:"用户邮箱"`
 		Phone    string `json:"user_phone" validate:"required,customPhoneNumber" label:"用户电话"`
-		Password string `json:"user_password"`
+		Password string `json:"user_password" validate:"required,min=8,customPassword" label:"用户密码"`
 		Birth    string `json:"user_birth"`
 		Gender   string `json:"user_gender"`
 	}

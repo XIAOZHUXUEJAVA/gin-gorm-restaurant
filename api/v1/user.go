@@ -33,6 +33,7 @@ func GetUserByEmail(c *gin.Context) {
 func InsertUser(c *gin.Context) {
 	var data proto.ReqAddUser
 	_ = c.ShouldBindJSON(&data)
+	// to validate
 	msg, code := validator.Validate(&data)
 	if code != errmsg.SUCCESS {
 		c.JSON(http.StatusOK, gin.H{
