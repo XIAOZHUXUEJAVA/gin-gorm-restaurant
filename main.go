@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	log.Println("hello, this is a restaurant order system")
+	log.Println("====================欢迎使用餐馆点餐系统====================")
 	model.InitDb()
 	routes.InitRouter()
 }

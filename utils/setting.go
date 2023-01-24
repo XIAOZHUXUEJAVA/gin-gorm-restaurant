@@ -24,9 +24,11 @@ var (
 func init() {
 
 	file, err := ini.Load("config/config.ini")
-	log.Println("==========开始读取config配置文件==========")
+	log.Println("====================开始读取config配置文件====================")
 	if err != nil {
-		log.Println("==========读取文件失败==========\n", err)
+		// 读取失败的话直接不用往下进行了，没有什么意义，所以使用log.Fatal
+		log.Fatalln("====================读取文件失败====================\n", err)
+		return
 	}
 	LoadServer(file)
 	LoadDate(file)

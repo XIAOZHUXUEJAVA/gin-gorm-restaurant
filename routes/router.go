@@ -30,7 +30,7 @@ func InitRouter() {
 		routeV1.GET("foods", v1.GetAllFood)
 		routeV1.GET("foods/:id", v1.GetFoodById)
 	}
-	log.Println("listening the port: 9090")
+	log.Println("====================正在监听端口: 9090====================")
 	r.Run(utils.HttpPort)
 
 }

@@ -39,7 +39,6 @@ func GetUserByEmail(email string) (*proto.RspFindUserByEmail, int) {
 		UserName: user.UserName,
 		Password: user.UserPassword,
 	}
-
 	return userInfo, errmsg.SUCCESS
 }
 

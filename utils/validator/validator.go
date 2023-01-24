@@ -21,6 +21,7 @@ func Validate(data interface{}) (string, int) {
 
 	err := zhTrans.RegisterDefaultTranslations(validate, trans)
 	if err != nil {
+		// 这个地方应该是翻译失败之类的错误
 		log.Println("err:  ", err)
 	}
 
@@ -38,13 +39,15 @@ func Validate(data interface{}) (string, int) {
 				return errmsg.PHONE_NUMBER_NOT_VALID, errmsg.ERROR
 			} else if err.Tag() == "customPassword" {
 				return errmsg.PASSWORD_NOT_VALID, errmsg.ERROR
+			} else {
+				return err.Translate(trans), errmsg.ERROR
 			}
-			return err.Translate(trans), errmsg.ERROR
 		}
 	}
 	return "", errmsg.SUCCESS
 }
 
+// 自定义约束条件
 // Add our own Tag to validate
 func customPhoneNumber(fl validator.FieldLevel) bool {
 	phoneNumber, ok := fl.Field().Interface().(string)
@@ -60,10 +63,6 @@ func customPassword(fl validator.FieldLevel) bool {
 	if !ok {
 		return false
 	}
-	// password length < 8, we can use min = 8
-	// if len(password) < 8 {
-	// 	return false
-	// }
 	// password must contain 1 special character
 	if !strings.ContainsAny(password, "!@#$%^&*") {
 		return false
