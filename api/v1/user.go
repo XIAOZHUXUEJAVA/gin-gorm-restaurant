@@ -7,14 +7,13 @@ import (
 	"zhu/myrest/utils/errmsg"
 	"zhu/myrest/utils/validator"
 
+	"github.com/ulule/deepcopier"
+
 	"github.com/gin-gonic/gin"
 )
 
 func GetAllUser(c *gin.Context) {
 	users, err := model.GetAllUsers()
-	// for _, user := range users {
-	// 	log.Println(user)
-	// }
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{"error": err.Error()})
 	} else {
@@ -42,14 +41,16 @@ func InsertUser(c *gin.Context) {
 		})
 		return
 	}
-	user := &model.User{
-		UserName:     data.UserName,
-		UserEmail:    data.Email,
-		UserPhone:    data.Phone,
-		UserPassword: data.Password,
-		UserBirth:    data.Birth,
-		UserGender:   data.Gender,
-	}
+	user := &model.User{}
+	deepcopier.Copy(data).To(user)
+	// user := &model.User{
+	// 	UserName:     data.UserName,
+	// 	UserEmail:    data.Email,
+	// 	UserPhone:    data.Phone,
+	// 	UserPassword: data.Password,
+	// 	UserBirth:    data.Birth,
+	// 	UserGender:   data.Gender,
+	// }
 	result, code := model.InsertUser(user)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,

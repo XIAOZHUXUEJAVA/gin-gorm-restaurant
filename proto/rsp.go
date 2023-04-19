@@ -1,7 +1,7 @@
 package proto
 
 type RspFindUserByEmail struct {
-	ID       int    `json:"user_id"`
-	UserName string `json:"user_name"`
-	Password string `json:"user_password"`
+	UserId       int    `json:"user_id"`
+	UserName     string `json:"user_name"`
+	UserPassword string `json:"user_password"`
 }

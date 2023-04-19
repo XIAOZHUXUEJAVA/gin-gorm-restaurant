@@ -22,24 +22,36 @@ func Validate(data interface{}) (string, int) {
 	err := zhTrans.RegisterDefaultTranslations(validate, trans)
 	if err != nil {
 		// 这个地方应该是翻译失败之类的错误
-		log.Println("err:  ", err)
+		log.Printf("validator翻译出现问题: %s", err)
 	}
+	_ = validate.RegisterValidation("customPhoneNumber", customPhoneNumber)
+	_ = validate.RegisterValidation("customPassword", customPassword)
 
 	validate.RegisterTagNameFunc(func(field reflect.StructField) string {
 		label := field.Tag.Get("label")
 		return label
 	})
-	_ = validate.RegisterValidation("customPhoneNumber", customPhoneNumber)
-	_ = validate.RegisterValidation("customPassword", customPassword)
+	// _ = validate.RegisterValidation("customPhoneNumber", customPhoneNumber)
+	// _ = validate.RegisterValidation("customPassword", customPassword)
 	err = validate.Struct(data)
 	if err != nil {
 		for _, err := range err.(validator.ValidationErrors) {
 			// phone number is not valid
-			if err.Tag() == "customPhoneNumber" {
+			// if err.Tag() == "customPhoneNumber" {
+			// 	return errmsg.PHONE_NUMBER_NOT_VALID, errmsg.ERROR
+			// } else if err.Tag() == "customPassword" {
+			// 	return errmsg.PASSWORD_NOT_VALID, errmsg.ERROR
+			// } else {
+			// 	return err.Translate(trans), errmsg.ERROR
+			// }
+			switch err.Tag() {
+			case "customPhoneNumber":
+				log.Println(errmsg.PHONE_NUMBER_NOT_VALID)
 				return errmsg.PHONE_NUMBER_NOT_VALID, errmsg.ERROR
-			} else if err.Tag() == "customPassword" {
+			case "customPassword":
+				log.Println(errmsg.PASSWORD_NOT_VALID)
 				return errmsg.PASSWORD_NOT_VALID, errmsg.ERROR
-			} else {
+			default:
 				return err.Translate(trans), errmsg.ERROR
 			}
 		}
@@ -64,8 +76,9 @@ func customPassword(fl validator.FieldLevel) bool {
 		return false
 	}
 	// password must contain 1 special character
-	if !strings.ContainsAny(password, "!@#$%^&*") {
-		return false
-	}
-	return true
+	// if !strings.ContainsAny(password, "!@#$%^&*") {
+	// 	return false
+	// }
+	// return true
+	return strings.ContainsAny(password, "!@#$%^&*")
 }

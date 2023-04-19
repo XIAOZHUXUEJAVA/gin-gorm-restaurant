@@ -4,6 +4,8 @@ import (
 	"log"
 	"zhu/myrest/proto"
 	"zhu/myrest/utils/errmsg"
+
+	"github.com/ulule/deepcopier"
 )
 
 type User struct {
@@ -25,32 +27,44 @@ func GetAllUsers() (users []*User, err error) {
 	return
 }
 
-// 根据email获取user
+// 根据email获取userInfo
 func GetUserByEmail(email string) (*proto.RspFindUserByEmail, int) {
 	var user *User = &User{}
 	// db.First(&user, email).Select("user_id, user_name, user_password")
-	err := db.Model(&user).Where("user_email = ?", email).First(&user).Select("user_id, user_name, user_password").Error
+
+	// if err := db.Model(&user).Where("user_email = ?", email).First(&user).
+	// 	Select("user_id, user_name, user_password").Error; err != nil {
+	// 	log.Println(err)
+	// 	return nil, errmsg.ERROR
+	// }
+	err := db.Model(&user).Where("user_email = ?", email).First(&user).
+		Select("user_id, user_name, user_password").Error
 	if err != nil {
-		log.Println(err)
+		log.Printf("根据邮箱查找用户时出错: %s", err)
 		return nil, errmsg.ERROR
 	}
-	userInfo := &proto.RspFindUserByEmail{
-		ID:       user.UserId,
-		UserName: user.UserName,
-		Password: user.UserPassword,
-	}
+	// userInfo := &proto.RspFindUserByEmail{
+	// 	ID:       user.UserId,
+	// 	UserName: user.UserName,
+	// 	Password: user.UserPassword,
+	// }
+	userInfo := &proto.RspFindUserByEmail{}
+	deepcopier.Copy(user).To(userInfo)
 	return userInfo, errmsg.SUCCESS
 }
 
-// 新增用户, 这个地方可以考虑优化一下，就是插入相同的话，返回错误信息，怎么办呢
 func InsertUser(data *User) (*User, int) {
 	// 判断用户是否存在
 	userInfo, _ := GetUserByEmail(data.UserEmail)
 	if userInfo != nil {
+		log.Println("用户邮箱已存在")
 		return nil, errmsg.USER_EMAIL_EXIST
 	}
-	err := db.Create(&data).Error
-	if err != nil {
+	// err := db.Create(&data).Error
+	// if err != nil {
+	// 	return nil, errmsg.ERROR
+	// }
+	if err := db.Create(&data).Error; err != nil {
 		return nil, errmsg.ERROR
 	}
 	return data, errmsg.SUCCESS

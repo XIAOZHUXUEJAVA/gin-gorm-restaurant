@@ -9,6 +9,7 @@ require (
 	github.com/go-playground/validator/v10 v10.10.0
 	github.com/go-sql-driver/mysql v1.7.0
 	github.com/jinzhu/gorm v1.9.16
+	github.com/ulule/deepcopier v0.0.0-20200430083143-45decc6639b6
 	gopkg.in/ini.v1 v1.67.0
 )
 
