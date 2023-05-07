@@ -1,0 +1,10 @@
+server:
+  AppMode: debug
+  HttpPort: ":9090"
+database:
+  Db: mysql
+  DbHost: 172.18.0.3
+  DbPort: ":3306"
+  DbUser: root
+  DbPassWord: "123456"
+  DbName: db_restaurant

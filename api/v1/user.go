@@ -12,9 +12,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// 测试代码
 func GetAllUser(c *gin.Context) {
-	users, err := model.GetAllUsers()
-	if err != nil {
+	if users, err := model.GetAllUsers(); err != nil {
 		c.JSON(http.StatusOK, gin.H{"error": err.Error()})
 	} else {
 		c.JSON(http.StatusOK, users)
@@ -32,7 +32,6 @@ func GetUserByEmail(c *gin.Context) {
 func InsertUser(c *gin.Context) {
 	var data proto.ReqAddUser
 	_ = c.ShouldBindJSON(&data)
-	// to validate
 	msg, code := validator.Validate(&data)
 	if code != errmsg.SUCCESS {
 		c.JSON(http.StatusOK, gin.H{
@@ -43,14 +42,6 @@ func InsertUser(c *gin.Context) {
 	}
 	user := &model.User{}
 	deepcopier.Copy(data).To(user)
-	// user := &model.User{
-	// 	UserName:     data.UserName,
-	// 	UserEmail:    data.Email,
-	// 	UserPhone:    data.Phone,
-	// 	UserPassword: data.Password,
-	// 	UserBirth:    data.Birth,
-	// 	UserGender:   data.Gender,
-	// }
 	result, code := model.InsertUser(user)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,

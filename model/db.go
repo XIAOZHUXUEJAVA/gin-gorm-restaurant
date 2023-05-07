@@ -28,7 +28,6 @@ func InitDb() {
 	))
 	if err != nil {
 		log.Printf("连接数据库失败，请检查参数: %s", err)
-		return
 	}
 	//defer db.Close()
 

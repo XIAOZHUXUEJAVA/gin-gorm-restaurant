@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"log"
 	"net/http"
 	"zhu/myrest/model"
 	"zhu/myrest/proto"
@@ -15,17 +16,15 @@ func InsertTable(c *gin.Context) {
 	// 将传过来的json绑定到data中
 	_ = c.ShouldBindJSON(&data)
 
-	// table := &model.BookTable{
-	// 	BookName:   data.BookName,
-	// 	BookPhone:  data.BookPhone,
-	// 	BookPeople: data.BookPeople,
-	// 	BookTables: data.BookTables,
-	// 	UserId:     data.UserId,
-	// 	BookWhen:   data.BookWhen,
-	// 	BookNote:   data.BookNote,
-	// }
 	table := &model.BookTable{}
-	deepcopier.Copy(data).To(table)
+	if err := deepcopier.Copy(data).To(table); err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"status":  errmsg.ERROR,
+			"data":    nil,
+			"message": errmsg.GetErrMsg(errmsg.ERROR),
+		})
+		log.Fatalf("转换预订餐桌数据出错: %s", err)
+	}
 	result, code := model.InsertTable(table)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,

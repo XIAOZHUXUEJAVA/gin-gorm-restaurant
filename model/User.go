@@ -29,27 +29,23 @@ func GetAllUsers() (users []*User, err error) {
 
 // 根据email获取userInfo
 func GetUserByEmail(email string) (*proto.RspFindUserByEmail, int) {
-	var user *User = &User{}
-	// db.First(&user, email).Select("user_id, user_name, user_password")
+	user := &User{}
 
-	// if err := db.Model(&user).Where("user_email = ?", email).First(&user).
-	// 	Select("user_id, user_name, user_password").Error; err != nil {
-	// 	log.Println(err)
-	// 	return nil, errmsg.ERROR
-	// }
-	err := db.Model(&user).Where("user_email = ?", email).First(&user).
-		Select("user_id, user_name, user_password").Error
+	err := db.Model(user).
+		Select("user_id, user_name, user_password").
+		Where("user_email = ?", email).
+		First(user).
+		Error
 	if err != nil {
 		log.Printf("根据邮箱查找用户时出错: %s", err)
 		return nil, errmsg.ERROR
 	}
-	// userInfo := &proto.RspFindUserByEmail{
-	// 	ID:       user.UserId,
-	// 	UserName: user.UserName,
-	// 	Password: user.UserPassword,
-	// }
+
 	userInfo := &proto.RspFindUserByEmail{}
-	deepcopier.Copy(user).To(userInfo)
+	if err := deepcopier.Copy(user).To(userInfo); err != nil {
+		log.Printf("转换用户信息时出错: %s", err)
+		return nil, errmsg.ERROR
+	}
 	return userInfo, errmsg.SUCCESS
 }
 
@@ -60,10 +56,6 @@ func InsertUser(data *User) (*User, int) {
 		log.Println("用户邮箱已存在")
 		return nil, errmsg.USER_EMAIL_EXIST
 	}
-	// err := db.Create(&data).Error
-	// if err != nil {
-	// 	return nil, errmsg.ERROR
-	// }
 	if err := db.Create(&data).Error; err != nil {
 		return nil, errmsg.ERROR
 	}

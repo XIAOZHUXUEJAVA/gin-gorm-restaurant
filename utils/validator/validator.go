@@ -22,7 +22,7 @@ func Validate(data interface{}) (string, int) {
 	err := zhTrans.RegisterDefaultTranslations(validate, trans)
 	if err != nil {
 		// 这个地方应该是翻译失败之类的错误
-		log.Printf("validator翻译出现问题: %s", err)
+		log.Fatalf("validator翻译出现问题: %s", err)
 	}
 	_ = validate.RegisterValidation("customPhoneNumber", customPhoneNumber)
 	_ = validate.RegisterValidation("customPassword", customPassword)
