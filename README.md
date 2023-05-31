@@ -1,9 +1,6 @@
 # gin-gorm-resraurant
 使用go + gorm + gin +vue3 构建的一个简单的点餐系统前台
-使用go重写的nodejs
 
-## nodejs版本 
-https://github.com/XIAOZHUXUEJAVA/restaurant-ordering-system
 
 ## 库或工具
 
@@ -19,3 +16,27 @@ https://github.com/XIAOZHUXUEJAVA/restaurant-ordering-system
 
 `go-playground/validator/v10` 是 Go 语言中一个功能强大的数据验证库，用于对数据结构进行验证和校验，包括验证字符串、数字、时间、结构体等多种数据类型。它可以有效提高应用程序的数据质量和数据安全性。
 
+
+## 使用
+说明： 数据库的使用为MySQL5，其他版本没有测试
+
+1. 修改config/config.yaml文件中的数据库信息:
+```yaml
+server:
+  AppMode: debug
+  HttpPort: ":9090"
+database:
+  Db: mysql
+  DbHost: 172.18.0.3
+  DbPort: ":3306"
+  DbUser: root
+  DbPassWord: "123456"
+  DbName: db_restaurant
+```
+
+2. 在根目录下
+
+```shell
+$ go mod tidy
+$ go run .
+```
