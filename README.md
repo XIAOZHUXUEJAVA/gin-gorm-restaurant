@@ -1,4 +1,4 @@
-# gin-gorm-resraurant
+# gin-gorm-restaurant
 使用go + gorm + gin +vue3 构建的一个简单的点餐系统前台
 
 
