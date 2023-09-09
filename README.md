@@ -34,9 +34,12 @@ database:
   DbName: db_restaurant
 ```
 
-2. 在根目录下
+2. 本地启动，在根目录下
 
 ```shell
 $ go mod tidy
 $ go run .
+$ cd frontend
+$ npm install
+$ npm run serve
 ```
